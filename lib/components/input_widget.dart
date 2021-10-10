@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class InputWidget extends StatelessWidget {
-  InputWidget(
+  const InputWidget(
       {required this.controller,
       required this.hint,
       this.keyboardType = TextInputType.none,

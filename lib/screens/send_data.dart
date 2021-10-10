@@ -17,7 +17,7 @@ class SendData extends StatefulWidget {
 
 class _SendDataState extends State<SendData> with WidgetsBindingObserver {
   List<String> beaconIdList = [];
-  List<String> _results = [];
+  final List<String> _results = [];
   String _beaconResult = 'Not Scanned Yet.';
   String patientName = '';
   String patientTc = '';
@@ -37,24 +37,15 @@ class _SendDataState extends State<SendData> with WidgetsBindingObserver {
         patientName = prefs.getString("patientName")!;
         patientTc = prefs.getString("patientTc")!;
       });
-      initPlatformState();
+      const oneSec = Duration(seconds: 30);
+      Timer.periodic(oneSec, (Timer t) => initPlatformState());
     }); //after everything uploaded run this function
-  }
-
-  Future stopMonitoring(Map<String, List> foundBeaconLists) async {
-    await BeaconsPlugin.stopMonitoring();
-    setState(() {
-      isScanning=false;
-    });
-    await DataService().sendLocationInfoToService(foundBeaconLists);
-    print("Stop works");
-    Future.delayed(const Duration(milliseconds: 20000), initPlatformState);
   }
 
   Future<void> initPlatformState() async {
     await BeaconsPlugin.startMonitoring();
     setState(() {
-      isScanning=true;
+      isScanning = true;
     });
     Map<String, List> infoMap = <String, List>{};
     BeaconsPlugin.listenToBeacons(beaconEventsController);
@@ -97,8 +88,13 @@ class _SendDataState extends State<SendData> with WidgetsBindingObserver {
         });
 
     await BeaconsPlugin.runInBackground(true);
-    await Future.delayed(const Duration(milliseconds: 10000));
-    await stopMonitoring(infoMap);
+    await Future.delayed(const Duration(seconds: 15));
+    await BeaconsPlugin.stopMonitoring();
+    print("Stop works");
+    setState(() {
+      isScanning = false;
+    });
+    await DataService().sendLocationInfoToService(infoMap);
   }
 
   @override
