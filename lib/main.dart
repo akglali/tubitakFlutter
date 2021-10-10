@@ -1,6 +1,7 @@
 import 'package:first_project_flutter/screens/send_data.dart';
 import 'package:first_project_flutter/utils/secure_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'screens/home_page.dart';
 
 void main() {
@@ -23,11 +24,9 @@ class _MyAppState extends State<MyApp> {
     _startApp();
     super.initState();
   }
-
   Future<void> _startApp() async {
     String? uuid = await SecureStorage().readKey('uuid');
-
-    await Future.delayed(Duration(seconds: 3));
+    await Future.delayed(Duration(seconds: 1));
     if (uuid != null) {
       setState(() {
         isLoading = false;
@@ -48,7 +47,11 @@ class _MyAppState extends State<MyApp> {
       theme: ThemeData.dark(),
       home: isLoading
           ? Scaffold(
-              body: Center(child: Icon(Icons.add)),
+              body: Center(child: SpinKitSpinningLines(
+                color: Colors.white,
+                size: 100,
+
+              ),),
             )
           : isLoggedIn ?  SendData(uuid: uuid):HomePage(title: 'Name Of The App') ,
     );

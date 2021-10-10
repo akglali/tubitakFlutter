@@ -41,8 +41,10 @@ class HomePage extends StatelessWidget {
             TextButton(
               onPressed: () async {
                 if (_formKey.currentState!.validate()) {
-                  uuid = (await LoginService(patientTc: tcno.text)
-                      .loginPatient())[0];
+                  List<String> getAll =
+                      await LoginService(patientTc: tcno.text).loginPatient();
+                  print(getAll);
+                  // uuid =getAll[0];
                   if (uuid == "There is no such a patient") {
                     AlertDialog alert = const AlertDialog(
                       title: Text("Not Found"),

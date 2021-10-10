@@ -16,24 +16,21 @@ class LoginService {
     var response =
         await http.post(url, body: json.encode({"patientTc": patientTc}));
     var body = jsonDecode(response.body);
-    if(response.statusCode != 200){
-      return jsonDecode(response.body)["Error"];
+    if (response.statusCode != 200) {
+      return [jsonDecode(response.body)["Error"]];
     }
-    String uuid=body['patientId'];
-    String patientName=body['patientName'];
-    await SecureStorage().writeKey(uuid,"uuid");
+    String uuid = body['patientId'];
+    String patientName = body['patientName'];
+    await SecureStorage().writeKey(uuid, "uuid");
     await prefs.setString("patientName", patientName);
     await prefs.setString("patientTc", patientTc);
-    return  [uuid,patientName,patientTc];
+    return [uuid, patientName, patientTc];
   }
 
-  Future<List<String>> getPatientName(String uuid) async{
+  Future<List<String>> getPatientName(String uuid) async {
     var url = Uri.parse('${domain}patient/get_patient_name');
-    var response= await http.get(url, headers:{"uuid":uuid});
+    var response = await http.get(url, headers: {"uuid": uuid});
     var body = jsonDecode(response.body);
-    print(body["patientName"]);
     return body["patientName"];
-
   }
-
 }
