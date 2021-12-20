@@ -1,6 +1,6 @@
-import 'package:first_project_flutter/components/input_widget.dart';
-import 'package:first_project_flutter/http_service/auth_service.dart';
-import 'package:first_project_flutter/screens/send_data.dart';
+import 'package:Tubitak/components/input_widget.dart';
+import 'package:Tubitak/http_service/auth_service.dart';
+import 'package:Tubitak/screens/send_data.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatelessWidget {
@@ -43,7 +43,6 @@ class HomePage extends StatelessWidget {
                 if (_formKey.currentState!.validate()) {
                   List<String> getAll =
                       await LoginService(patientTc: tcno.text).loginPatient();
-                  print(getAll);
                   // uuid =getAll[0];
                   if (uuid == "There is no such a patient") {
                     AlertDialog alert = const AlertDialog(

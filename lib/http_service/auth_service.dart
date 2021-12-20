@@ -1,12 +1,13 @@
 import 'dart:convert';
 
-import 'package:first_project_flutter/utils/secure_storage.dart';
+
+import 'package:Tubitak/utils/secure_storage.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginService {
   String patientTc;
-  String domain = 'http://192.168.43.56:8000/';
+  String domain = 'http://172.20.10.2:8000/';
 
   LoginService({required this.patientTc});
 
@@ -27,10 +28,5 @@ class LoginService {
     return [uuid, patientName, patientTc];
   }
 
-  Future<List<String>> getPatientName(String uuid) async {
-    var url = Uri.parse('${domain}patient/get_patient_name');
-    var response = await http.get(url, headers: {"uuid": uuid});
-    var body = jsonDecode(response.body);
-    return body["patientName"];
-  }
+
 }

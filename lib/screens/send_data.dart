@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
+import 'package:Tubitak/http_service/data_service.dart';
 import 'package:beacons_plugin/beacons_plugin.dart';
-import 'package:first_project_flutter/http_service/data_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -37,8 +37,8 @@ class _SendDataState extends State<SendData> with WidgetsBindingObserver {
         patientName = prefs.getString("patientName")!;
         patientTc = prefs.getString("patientTc")!;
       });
-      const oneSec = Duration(seconds: 30);
-      Timer.periodic(oneSec, (Timer t) => initPlatformState());
+      const time = Duration(seconds: 30);
+      Timer.periodic(time, (Timer t) => initPlatformState());
     }); //after everything uploaded run this function
   }
 
@@ -50,7 +50,7 @@ class _SendDataState extends State<SendData> with WidgetsBindingObserver {
     Map<String, List> infoMap = <String, List>{};
     BeaconsPlugin.listenToBeacons(beaconEventsController);
 
-    /* await BeaconsPlugin.addRegion(
+    /*await BeaconsPlugin.addRegion(
         "BeaconType1", "909c3cf9-fc5c-4841-b695-380958a51a5a");
     await BeaconsPlugin.addRegion(
         "BeaconType2", "6a84c716-0f2a-1ce9-f210-6a63bd873dd9");
@@ -58,8 +58,8 @@ class _SendDataState extends State<SendData> with WidgetsBindingObserver {
     BeaconsPlugin.addBeaconLayoutForAndroid(
         "m:2-3=beac,i:4-19,i:20-21,i:22-23,p:24-24,d:25-25");
     BeaconsPlugin.addBeaconLayoutForAndroid(
-        "m:2-3=0215,i:4-19,i:20-21,i:22-23,p:24-24"); */
-
+        "m:2-3=0215,i:4-19,i:20-21,i:22-23,p:24-24");
+*/
     /* BeaconsPlugin.setForegroundScanPeriodForAndroid(
         foregroundScanPeriod: 2 , foregroundBetweenScanPeriod: 1);
 
@@ -68,7 +68,10 @@ class _SendDataState extends State<SendData> with WidgetsBindingObserver {
 
     beaconEventsController.stream.listen(
         (data) {
+          print("works");
+
           if (data.isNotEmpty) {
+
             setState(() {
               _beaconResult = data;
               _results.add(_beaconResult);
@@ -89,8 +92,8 @@ class _SendDataState extends State<SendData> with WidgetsBindingObserver {
 
     await BeaconsPlugin.runInBackground(true);
     await Future.delayed(const Duration(seconds: 15));
-    await BeaconsPlugin.stopMonitoring();
-    print("Stop works");
+    // await BeaconsPlugin.stopMonitoring();
+    // print("Stop works");
     setState(() {
       isScanning = false;
     });

@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
 
 class InputWidget extends StatelessWidget {
-  const InputWidget(
+  InputWidget(
       {required this.controller,
       required this.hint,
-      this.keyboardType = TextInputType.none,
+      this.keyboardType = TextInputType.text,
       this.color = const Color(0xFF383838)});
 
   final TextEditingController controller;
   final String hint;
   final TextInputType keyboardType;
   final Color color;
+
 
   @override
   Widget build(BuildContext context) {

@@ -1,5 +1,5 @@
-import 'package:first_project_flutter/screens/send_data.dart';
-import 'package:first_project_flutter/utils/secure_storage.dart';
+import 'package:Tubitak/screens/send_data.dart';
+import 'package:Tubitak/utils/secure_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'screens/home_page.dart';
@@ -18,12 +18,14 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   bool isLoading = true;
   bool isLoggedIn = false;
-  String uuid='';
+  String uuid = '';
+
   @override
   void initState() {
     _startApp();
     super.initState();
   }
+
   Future<void> _startApp() async {
     String? uuid = await SecureStorage().readKey('uuid');
     await Future.delayed(Duration(seconds: 1));
@@ -47,13 +49,17 @@ class _MyAppState extends State<MyApp> {
       theme: ThemeData.dark(),
       home: isLoading
           ? Scaffold(
-              body: Center(child: SpinKitSpinningLines(
-                color: Colors.white,
-                size: 100,
-
-              ),),
+              body: Center(
+                child: SpinKitSpinningLines(
+                  color: Colors.white,
+                  size: 100,
+                  duration: Duration(seconds: 2),
+                ),
+              ),
             )
-          : isLoggedIn ?  SendData(uuid: uuid):HomePage(title: 'Name Of The App') ,
+          : isLoggedIn
+              ? SendData(uuid: uuid)
+              : HomePage(title: 'Tubitak'),
     );
   }
 }
